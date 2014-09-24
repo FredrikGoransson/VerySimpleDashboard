@@ -1,0 +1,1 @@
+./tools/GitVersion/GitVersion.exe
