@@ -12,6 +12,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{EF0FEF
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VerySimpleDashboard.Data", "VerySimpleDashboard.Data\VerySimpleDashboard.Data.csproj", "{B59EB5C9-3751-43FD-8AEE-C52AA59C7376}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -22,6 +24,10 @@ Global
 		{B7D72D5D-1BC2-4C68-B1FF-CB34C52799FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B7D72D5D-1BC2-4C68-B1FF-CB34C52799FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B7D72D5D-1BC2-4C68-B1FF-CB34C52799FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B59EB5C9-3751-43FD-8AEE-C52AA59C7376}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B59EB5C9-3751-43FD-8AEE-C52AA59C7376}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B59EB5C9-3751-43FD-8AEE-C52AA59C7376}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B59EB5C9-3751-43FD-8AEE-C52AA59C7376}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
