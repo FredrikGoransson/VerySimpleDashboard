@@ -14,6 +14,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{EF0FEF
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VerySimpleDashboard.Data", "VerySimpleDashboard.Data\VerySimpleDashboard.Data.csproj", "{B59EB5C9-3751-43FD-8AEE-C52AA59C7376}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VerySimpleDashboard.Importer", "VerySimpleDashboard.Importer\VerySimpleDashboard.Importer.csproj", "{7ACB00C4-CDB0-4261-8687-2093B4C02BFC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VerySimpleDashboard.Data.SqlStorage", "VerySimpleDashboard.Data.SqlStorage\VerySimpleDashboard.Data.SqlStorage.csproj", "{D1A3D277-B17E-4395-A51F-693A18EE6192}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VerySimpleDashboard.Tests", "VerySimpleDashboard.Tests\VerySimpleDashboard.Tests.csproj", "{EEFF028D-44F3-4FAB-9D77-96EE6BFED2BB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -28,6 +34,18 @@ Global
 		{B59EB5C9-3751-43FD-8AEE-C52AA59C7376}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B59EB5C9-3751-43FD-8AEE-C52AA59C7376}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B59EB5C9-3751-43FD-8AEE-C52AA59C7376}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7ACB00C4-CDB0-4261-8687-2093B4C02BFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7ACB00C4-CDB0-4261-8687-2093B4C02BFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7ACB00C4-CDB0-4261-8687-2093B4C02BFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7ACB00C4-CDB0-4261-8687-2093B4C02BFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1A3D277-B17E-4395-A51F-693A18EE6192}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1A3D277-B17E-4395-A51F-693A18EE6192}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1A3D277-B17E-4395-A51F-693A18EE6192}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1A3D277-B17E-4395-A51F-693A18EE6192}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EEFF028D-44F3-4FAB-9D77-96EE6BFED2BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEFF028D-44F3-4FAB-9D77-96EE6BFED2BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EEFF028D-44F3-4FAB-9D77-96EE6BFED2BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EEFF028D-44F3-4FAB-9D77-96EE6BFED2BB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

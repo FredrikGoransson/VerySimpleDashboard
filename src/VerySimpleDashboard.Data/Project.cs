@@ -14,22 +14,13 @@ namespace VerySimpleDashboard.Data
     public class Table
     {
         public string Name { get; set; }
-        public IList<Column> Columns { get; set; }
+        public IList<DataRow> Rows { get; set; }
     }
 
-    public class Column
+    public class DataRow
     {
-        public string Name { get; set; }
-        public DataType Type { get; set; }
-    }
-
-    public enum DataType
-    {
-        String,
-        DateTime,
-        Integer,
-        Double,
-        Boolean,
+        public Guid Id { get; set; }
+        public string Data { get; set; }
     }
 
     public class User
