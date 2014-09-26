@@ -57,10 +57,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MigrationRunnerBase.cs" />
-    <Compile Include="MigrationOptions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestsWithDatabaseFromMigrations.cs" />
+    <Compile Include="TestSupport\MigrationOptions.cs" />
+    <Compile Include="TestSupport\MigrationRunnerBase.cs" />
+    <Compile Include="TestSupport\MigrationsTests.cs" />
+    <Compile Include="TestSupport\TestsWithDatabaseFromMigrations.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
