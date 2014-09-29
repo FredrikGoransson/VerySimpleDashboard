@@ -118,10 +118,11 @@ namespace VerySimpleDashboard.Importer
                 var rowValues = (object[,])null;
                 while (emptyCount <= DefaultMaxEmptycount)
                 {
-                    if ((rowIndex > (bufferPage * BufferRowLength)) || rowValues == null)
+                    if ((rowIndex >= ((bufferPage + 1) * BufferRowLength + rowOffset)) || rowValues == null)
                     {
                         bufferPage += 1;
-                        rowValues = _excelReaderProxy.GetRangeValues(workSheetName, startRow: rowOffset + bufferPage * BufferRowLength, rowCount: BufferRowLength,
+                        rowValues = _excelReaderProxy.GetRangeValues(workSheetName, 
+                            startRow: rowOffset + bufferPage * BufferRowLength, rowCount: BufferRowLength,
                             startColumn: 0, columnCount: table.Columns.Count);
                     }
 
