@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ExcelImporter.cs" />
+    <Compile Include="ExcelImporterException.cs" />
     <Compile Include="ExcelImportError.cs" />
     <Compile Include="ExcelImportErrorExtensions.cs" />
     <Compile Include="ExcelReaderProxy.cs" />

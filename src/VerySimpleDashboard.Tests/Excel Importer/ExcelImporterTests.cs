@@ -9,21 +9,18 @@ using VerySimpleDashboard.Importer;
 namespace VerySimpleDashboard.Tests
 {
     // ReSharper disable once InconsistentNaming
-    public class ExcelImporterTests_ImportDocument
+    public abstract class ExcelImporterTests_base_tests
     {
+        protected IExcelReaderProxy ExcelReaderProxy;
+
         [Test]
         public void Should_return_project_from_document()
         {
             //Act
-            var reader = new ExcelReaderProxy();
-            var importer = new ExcelImporter(reader, System.Globalization.CultureInfo.InvariantCulture);
-            var fileStream = System.IO.File.Open(@"Excel Importer/Test Document 1.xlsx", FileMode.Open, FileAccess.Read,
-                FileShare.Read);
+            var importer = new ExcelImporter(ExcelReaderProxy, System.Globalization.CultureInfo.InvariantCulture);
 
             //Arrange
-            var importedProject = importer.ImportDocumentStructure(fileStream);
-            fileStream.Close();
-            fileStream.Dispose();
+            var importedProject = importer.ImportDocumentStructure();
 
             //Assert
             importedProject.Should().NotBeNull();
@@ -35,15 +32,10 @@ namespace VerySimpleDashboard.Tests
         public void Should_return_project_with_one_table_per_worksheet_in_document()
         {
             //Act
-            var reader = new ExcelReaderProxy();
-            var importer = new ExcelImporter(reader, System.Globalization.CultureInfo.InvariantCulture);
-            var fileStream = System.IO.File.Open(@"Excel Importer/Test Document 1.xlsx", FileMode.Open, FileAccess.Read,
-                FileShare.Read);
+            var importer = new ExcelImporter(ExcelReaderProxy, System.Globalization.CultureInfo.InvariantCulture);
 
             //Arrange
-            var importedProject = importer.ImportDocumentStructure(fileStream);
-            fileStream.Close();
-            fileStream.Dispose();
+            var importedProject = importer.ImportDocumentStructure();
 
             //Assert
             importedProject.Tables.Should().HaveCount(2);
@@ -64,15 +56,10 @@ namespace VerySimpleDashboard.Tests
         public void Should_return_table_columns_for_each_worksheet_column()
         {
             //Act
-            var reader = new ExcelReaderProxy();
-            var importer = new ExcelImporter(reader, System.Globalization.CultureInfo.InvariantCulture);
-            var fileStream = System.IO.File.Open(@"Excel Importer/Test Document 1.xlsx", FileMode.Open, FileAccess.Read,
-                FileShare.Read);
+            var importer = new ExcelImporter(ExcelReaderProxy, System.Globalization.CultureInfo.InvariantCulture);
 
             //Arrange
-            var importedProject = importer.ImportDocumentStructure(fileStream);
-            fileStream.Close();
-            fileStream.Dispose();
+            var importedProject = importer.ImportDocumentStructure();
 
             //Assert
             var tableInternetUsers = importedProject.Tables.First(a => a.Name == "Internet users");
@@ -81,11 +68,33 @@ namespace VerySimpleDashboard.Tests
             tableInternetUsers.Columns.Should().HaveCount(6);
             tableInternetConnectionSpeed.Columns.Should().HaveCount(2);
 
-            var expectedColumns = new[]
-            {"Country or area", "Internet users", "Rank", "Penetration", "Is big", "Check date"};
+            var expectedColumns = new[] { "Country or area", "Internet users", "Rank", "Penetration", "Is big", "Check date" };
             tableInternetUsers.Columns.Select(c => c.Name).ShouldAllBeEquivalentTo(expectedColumns);
 
-            expectedColumns = new[] {"Country/Territory", "Avg. connection speed (Mbit/s)"};
+            expectedColumns = new[] { "Country/Territory", "Avg. connection speed (Mbit/s)" };
+            tableInternetConnectionSpeed.Columns.Select(c => c.Name).ShouldAllBeEquivalentTo(expectedColumns);
+        }
+
+        [Test]
+        public void Should_return_table_columns__with_unique_id_for_each_worksheet_column()
+        {
+            //Act
+            var importer = new ExcelImporter(ExcelReaderProxy, System.Globalization.CultureInfo.InvariantCulture);
+
+            //Arrange
+            var importedProject = importer.ImportDocumentStructure();
+
+            //Assert
+            var tableInternetUsers = importedProject.Tables.First(a => a.Name == "Internet users");
+            var tableInternetConnectionSpeed = importedProject.Tables.First(a => a.Name == "Internet connection speed");
+
+            tableInternetUsers.Columns.Should().HaveCount(6);
+            tableInternetConnectionSpeed.Columns.Should().HaveCount(2);
+
+            var expectedColumns = new[] { "Country or area", "Internet users", "Rank", "Penetration", "Is big", "Check date" };
+            tableInternetUsers.Columns.Any(c => !c.Id.Equals(Guid.Empty)).Should().BeTrue();
+
+            expectedColumns = new[] { "Country/Territory", "Avg. connection speed (Mbit/s)" };
             tableInternetConnectionSpeed.Columns.Select(c => c.Name).ShouldAllBeEquivalentTo(expectedColumns);
         }
 
@@ -93,15 +102,11 @@ namespace VerySimpleDashboard.Tests
         public void Should_return_table_columns_with_best_guessed_datatype_string_for_textual_data()
         {
             //Act
-            var reader = new ExcelReaderProxy();
-            var importer = new ExcelImporter(reader, System.Globalization.CultureInfo.InvariantCulture);
-            var fileStream = System.IO.File.Open(@"Excel Importer/Test Document 1.xlsx", FileMode.Open, FileAccess.Read,
-                FileShare.Read);
+            //Act
+            var importer = new ExcelImporter(ExcelReaderProxy, System.Globalization.CultureInfo.InvariantCulture);
 
             //Arrange
-            var importedProject = importer.ImportDocumentStructure(fileStream);
-            fileStream.Close();
-            fileStream.Dispose();
+            var importedProject = importer.ImportDocumentStructure();
 
             //Assert
             var tableInternetUsers = importedProject.Tables.First(a => a.Name == "Internet users");
@@ -113,15 +118,11 @@ namespace VerySimpleDashboard.Tests
         public void Should_return_table_columns_with_best_guessed_datatype_integer_for_interger_data()
         {
             //Act
-            var reader = new ExcelReaderProxy();
-            var importer = new ExcelImporter(reader, System.Globalization.CultureInfo.InvariantCulture);
-            var fileStream = System.IO.File.Open(@"Excel Importer/Test Document 1.xlsx", FileMode.Open, FileAccess.Read,
-                FileShare.Read);
+            //Act
+            var importer = new ExcelImporter(ExcelReaderProxy, System.Globalization.CultureInfo.InvariantCulture);
 
             //Arrange
-            var importedProject = importer.ImportDocumentStructure(fileStream);
-            fileStream.Close();
-            fileStream.Dispose();
+            var importedProject = importer.ImportDocumentStructure();
 
             //Assert
             var tableInternetUsers = importedProject.Tables.First(a => a.Name == "Internet users");
@@ -133,15 +134,10 @@ namespace VerySimpleDashboard.Tests
         public void Should_return_table_columns_with_best_guessed_datatype_double_for_double_data()
         {
             //Act
-            var reader = new ExcelReaderProxy();
-            var importer = new ExcelImporter(reader, System.Globalization.CultureInfo.InvariantCulture);
-            var fileStream = System.IO.File.Open(@"Excel Importer/Test Document 1.xlsx", FileMode.Open, FileAccess.Read,
-                FileShare.Read);
+            var importer = new ExcelImporter(ExcelReaderProxy, System.Globalization.CultureInfo.InvariantCulture);
 
             //Arrange
-            var importedProject = importer.ImportDocumentStructure(fileStream);
-            fileStream.Close();
-            fileStream.Dispose();
+            var importedProject = importer.ImportDocumentStructure();
 
             //Assert
             var tableInternetUsers = importedProject.Tables.First(a => a.Name == "Internet users");
@@ -153,15 +149,10 @@ namespace VerySimpleDashboard.Tests
         public void Should_return_table_columns_with_best_guessed_datatype_boolean_for_boolean_data()
         {
             //Act
-            var reader = new ExcelReaderProxy();
-            var importer = new ExcelImporter(reader, System.Globalization.CultureInfo.InvariantCulture);
-            var fileStream = System.IO.File.Open(@"Excel Importer/Test Document 1.xlsx", FileMode.Open, FileAccess.Read,
-                FileShare.Read);
+            var importer = new ExcelImporter(ExcelReaderProxy, System.Globalization.CultureInfo.InvariantCulture);
 
             //Arrange
-            var importedProject = importer.ImportDocumentStructure(fileStream);
-            fileStream.Close();
-            fileStream.Dispose();
+            var importedProject = importer.ImportDocumentStructure();
 
             //Assert
             var tableInternetUsers = importedProject.Tables.First(a => a.Name == "Internet users");
@@ -173,15 +164,10 @@ namespace VerySimpleDashboard.Tests
         public void Should_return_table_columns_with_best_guessed_datatype_datetime_for_boolean_datetime()
         {
             //Act
-            var reader = new ExcelReaderProxy();
-            var importer = new ExcelImporter(reader, System.Globalization.CultureInfo.InvariantCulture);
-            var fileStream = System.IO.File.Open(@"Excel Importer/Test Document 1.xlsx", FileMode.Open, FileAccess.Read,
-                FileShare.Read);
+            var importer = new ExcelImporter(ExcelReaderProxy, System.Globalization.CultureInfo.InvariantCulture);
 
             //Arrange
-            var importedProject = importer.ImportDocumentStructure(fileStream);
-            fileStream.Close();
-            fileStream.Dispose();
+            var importedProject = importer.ImportDocumentStructure();
 
             //Assert
             var tableInternetUsers = importedProject.Tables.First(a => a.Name == "Internet users");
@@ -193,15 +179,10 @@ namespace VerySimpleDashboard.Tests
         public void Should_return_table_columns_with_datatype_for_each_worksheet_column()
         {
             //Act
-            var reader = new ExcelReaderProxy();
-            var importer = new ExcelImporter(reader, System.Globalization.CultureInfo.InvariantCulture);
-            var fileStream = System.IO.File.Open(@"Excel Importer/Test Document 1.xlsx", FileMode.Open, FileAccess.Read,
-                FileShare.Read);
+            var importer = new ExcelImporter(ExcelReaderProxy, System.Globalization.CultureInfo.InvariantCulture);
 
             //Arrange
-            var importedProject = importer.ImportDocumentStructure(fileStream);
-            fileStream.Close();
-            fileStream.Dispose();
+            var importedProject = importer.ImportDocumentStructure();
 
             //Assert
             var tableInternetUsers = importedProject.Tables.First(a => a.Name == "Internet users");
@@ -244,6 +225,115 @@ namespace VerySimpleDashboard.Tests
                 actualColumn.Name.Should().Be(expectedColumn.Name);
                 actualColumn.DataType.Should().Be(expectedColumn.DataType);
             }
+        }
+    }
+
+    // ReSharper disable once InconsistentNaming
+    public class ExcelImporterTests_ImportDocumentStructure_With_well_formed_document : ExcelImporterTests_base_tests
+    {
+        private FileStream _fileStream;
+
+        [SetUp]
+        private void Setup()
+        {
+            var reader = new ExcelReaderProxy();
+            _fileStream = File.Open(@"Excel Importer/Test Document 1.xlsx",
+                FileMode.Open, FileAccess.Read, FileShare.Read);
+            reader.Open(_fileStream);
+            ExcelReaderProxy = reader;
+        }
+
+        [TearDown]
+        private void Teardown()
+        {
+            _fileStream.Close();
+            _fileStream.Dispose();
+            ExcelReaderProxy.Dispose();
+        }
+    }
+
+    // ReSharper disable once InconsistentNaming
+    public class ExcelImporterTests_ImportDocumentStructure_With_document_with_empty_rows : ExcelImporterTests_base_tests
+    {
+        private FileStream _fileStream;
+
+        [SetUp]
+        public void Setup()
+        {
+            var reader = new ExcelReaderProxy();
+            _fileStream = File.Open(@"Excel Importer/Test Document 1.xlsx",
+                FileMode.Open, FileAccess.Read, FileShare.Read);
+            reader.Open(_fileStream);
+            ExcelReaderProxy = reader;
+        }
+
+        [TearDown]
+        public void Teardown()
+        {
+            _fileStream.Close();
+            _fileStream.Dispose();
+            ExcelReaderProxy.Dispose();
+        }
+    }
+
+    // ReSharper disable once InconsistentNaming
+    public class ExcelImporterTests_ImportDocumentContent_
+    {
+        protected IExcelReaderProxy ExcelReaderProxy;
+        private FileStream _fileStream;
+
+        [SetUp]
+        public void Setup()
+        {
+            var reader = new ExcelReaderProxy();
+            _fileStream = File.Open(@"Excel Importer/Test Document 2.xlsx",
+                FileMode.Open, FileAccess.Read, FileShare.Read);
+            reader.Open(_fileStream);
+            ExcelReaderProxy = reader;
+        }
+
+        [TearDown]
+        public void Teardown()
+        {
+            _fileStream.Close();
+            _fileStream.Dispose();
+            ExcelReaderProxy.Dispose();
+        }
+
+        [Test]
+        public void Should_return_import_data_to_project_from_document()
+        {
+            //Act
+            var importer = new ExcelImporter(ExcelReaderProxy, System.Globalization.CultureInfo.InvariantCulture);
+            var importedProject = importer.ImportDocumentStructure();
+
+            //Arrange
+            importedProject = importer.ImportDocumentContent(importedProject);
+
+            //Assert
+            var tableInternetUsers = importedProject.Tables.First(a => a.Name == "Internet users");
+            tableInternetUsers.Rows.Should().HaveCount(54);
+
+            var tableInternetConnectionSpeed = importedProject.Tables.First(a => a.Name == "Internet connection speed");
+            tableInternetConnectionSpeed.Rows.Should().HaveCount(62);
+        }
+
+        [Test]
+        public void When_document_contains_empty_rows_in_the_middle_should_return_import_data_to_project_from_document()
+        {
+            //Act
+            var importer = new ExcelImporter(ExcelReaderProxy, System.Globalization.CultureInfo.InvariantCulture);
+            var importedProject = importer.ImportDocumentStructure();
+
+            //Arrange
+            importedProject = importer.ImportDocumentContent(importedProject);
+
+            //Assert
+            var tableInternetUsers = importedProject.Tables.First(a => a.Name == "Internet users");
+            tableInternetUsers.Rows.Should().HaveCount(54);
+
+            var tableInternetConnectionSpeed = importedProject.Tables.First(a => a.Name == "Internet connection speed");
+            tableInternetConnectionSpeed.Rows.Should().HaveCount(57);
         }
     }
 }

@@ -9,6 +9,7 @@ namespace VerySimpleDashboard.Data
         {
             Id = Guid.NewGuid();
             Columns = new List<Column>();
+            Rows = new List<DataRow>();
         }
 
         public Guid Id { get; set; }

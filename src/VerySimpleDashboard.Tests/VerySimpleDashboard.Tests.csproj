@@ -65,6 +65,9 @@
     <Compile Include="Support Files\TestsWithDatabaseFromMigrations.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Excel Importer\Test Document 2.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Excel Importer\Test Document 1.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
