@@ -58,18 +58,30 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestSupport\MigrationOptions.cs" />
-    <Compile Include="TestSupport\MigrationRunnerBase.cs" />
-    <Compile Include="TestSupport\MigrationsTests.cs" />
-    <Compile Include="TestSupport\TestsWithDatabaseFromMigrations.cs" />
+    <Compile Include="Excel Importer\ExcelImporterTests.cs" />
+    <Compile Include="Support Files\MigrationOptions.cs" />
+    <Compile Include="Support Files\MigrationRunnerBase.cs" />
+    <Compile Include="Support Files\MigrationsTests.cs" />
+    <Compile Include="Support Files\TestsWithDatabaseFromMigrations.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Excel Importer\Test Document 1.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\VerySimpleDashboard.Data.SqlStorage\VerySimpleDashboard.Data.SqlStorage.csproj">
       <Project>{D1A3D277-B17E-4395-A51F-693A18EE6192}</Project>
       <Name>VerySimpleDashboard.Data.SqlStorage</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\VerySimpleDashboard.Data\VerySimpleDashboard.Data.csproj">
+      <Project>{b59eb5c9-3751-43fd-8aee-c52aa59c7376}</Project>
+      <Name>VerySimpleDashboard.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\VerySimpleDashboard.Importer\VerySimpleDashboard.Importer.csproj">
+      <Project>{7acb00c4-cdb0-4261-8687-2093b4c02bfc}</Project>
+      <Name>VerySimpleDashboard.Importer</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

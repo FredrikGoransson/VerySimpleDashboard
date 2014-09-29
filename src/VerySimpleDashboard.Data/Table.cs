@@ -3,16 +3,17 @@ using System.Collections.Generic;
 
 namespace VerySimpleDashboard.Data
 {
-    public class Project
+    public class Table
     {
-        public Project()
+        public Table()
         {
             Id = Guid.NewGuid();
-            Tables = new List<Table>();
+            Columns = new List<Column>();
         }
 
         public Guid Id { get; set; }
         public string Name { get; set; }
-        public IList<Table> Tables { get; set; }
+        public IList<DataRow> Rows { get; set; }
+        public IList<Column> Columns { get; set; }
     }
 }
