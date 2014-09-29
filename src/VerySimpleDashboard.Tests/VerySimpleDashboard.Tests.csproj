@@ -57,6 +57,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Excel Importer\ExcelImporterTests_base_tests.cs" />
+    <Compile Include="Excel Importer\ExcelImporterTests_ImportDocumentContent.cs" />
+    <Compile Include="Excel Importer\ExcelImporterTests_ImportDocumentStructure_With_document_with_empty_rows.cs" />
+    <Compile Include="Excel Reader\ExcelReaderProxy_tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Excel Importer\ExcelImporterTests.cs" />
     <Compile Include="Support Files\MigrationOptions.cs" />
@@ -69,6 +73,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Excel Importer\Test Document 1.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Excel Reader\Test Document 3.xlsx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />

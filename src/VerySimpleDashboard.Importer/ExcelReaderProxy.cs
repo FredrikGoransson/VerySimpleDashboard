@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using OfficeOpenXml;
+using VerySimpleDashboard.Data;
 
 namespace VerySimpleDashboard.Importer
 {
@@ -66,8 +69,32 @@ namespace VerySimpleDashboard.Importer
             if (_package == null) throw new PackageNotOpenException();
 
             var workSheet = _package.Workbook.Worksheets[workSheetName];
+            var range = workSheet.Cells[row + 1, startColumn + 1, row + 1, startColumn + columnCount + 1]
+                .Select(c => new {Value = c.Value, Address = new CellAddress(c.Address)});
+            var values = new object[columnCount, 1];
+            foreach (var cell in range)
+            {
+                
+            }
 
-            return workSheet.Cells[row + 1, startColumn + 1, row + 1, startColumn + columnCount + 1].Select(c => c.Value);
+            return range.Select(c => c.Value);
+        }
+
+        public object[,] GetRangeValues(string workSheetName, int startRow, int rowCount, int startColumn, int columnCount)
+        {
+            if (_package == null) throw new PackageNotOpenException();
+
+            var workSheet = _package.Workbook.Worksheets[workSheetName];
+            var range = workSheet.Cells[startRow + 1, startColumn + 1, startRow + (rowCount - 1) + 1, startColumn + (columnCount - 1) + 1]
+                .Select(c => new { Value = c.Value, Address = new CellAddress(c.Address) })
+                .ToArray();
+            var values = new object[columnCount, rowCount];
+            foreach (var cell in range)
+            {
+                values[cell.Address.Column - startColumn, cell.Address.Row - startRow] = cell.Value;
+            }
+
+            return values;
         }
 
         public int GetRowCount(string workSheetName)
@@ -95,6 +122,45 @@ namespace VerySimpleDashboard.Importer
             if (_package != null)
                 _package.Dispose();
         }
+
+        public class CellAddress
+        {
+            private static readonly Regex AddressParsingRegEx;
+            private static readonly int CharAValue;
+            private static readonly int CharAtoZOffset;
+            
+            
+            static CellAddress()
+            {
+                CharAValue = (int) 'A';
+                CharAtoZOffset = (int)'Z' - CharAValue + 1;
+                const string regEx = @"\b([A-Z]{1,}?)(\d{1,})\b";
+                AddressParsingRegEx = new System.Text.RegularExpressions.Regex(regEx, RegexOptions.Compiled);
+            }
+
+            public CellAddress(string address)
+            {
+                var groups = AddressParsingRegEx.Match(address).Groups;
+                var columnValue = groups[1].Value.ToUpper();
+                var column = 0;
+                for (var i = 0; i < columnValue.Length; i++)
+                {
+                    var columnChar = (int) columnValue[i];
+                    column += (columnChar - CharAValue) + i*CharAtoZOffset;
+                }
+                Column = column; 
+
+                var row = -1;
+                if (int.TryParse(groups[2].Value, NumberStyles.Integer,
+                    System.Globalization.CultureInfo.InvariantCulture, out row))
+                {
+                    Row = row - 1;
+                }
+            }
+
+            public int Row { get; private set; }
+            public int Column { get; private set; }
+        }   
     }
 
     public class PackageNotOpenException : Exception

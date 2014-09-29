@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using VerySimpleDashboard.Data;
@@ -18,7 +19,15 @@ namespace VerySimpleDashboard.Importer
         private readonly CultureInfo _cultureInfo;
         private readonly IList<ExcelImportError> _errors = new List<ExcelImportError>();
         private bool _hasRowErrors;
-        
+
+        public int MaxEmptycount { get; set; }
+        public int BufferRowLength { get; set; }
+        public int ColumnGuessScanLength { get; set; }
+
+        private const int DefaultMaxEmptycount = 10;
+        private const int DefaultBufferRowLength = 3;
+        private const int DefaultColumnGuessScanLength = 100;
+
         private void AddError(ExcelImportError error)
         {
             _hasRowErrors = true;
@@ -31,6 +40,10 @@ namespace VerySimpleDashboard.Importer
         {
             _excelReaderProxy = excelReaderProxy;
             _cultureInfo = cultureInfo;
+
+            MaxEmptycount = DefaultMaxEmptycount;
+            BufferRowLength = DefaultBufferRowLength;
+            ColumnGuessScanLength = DefaultColumnGuessScanLength;
         }
 
         private void EnsureReaderIsOpen()
@@ -93,7 +106,6 @@ namespace VerySimpleDashboard.Importer
             _errors.Clear();
             EnsureReaderIsOpen();
 
-            var maxEmptyCount = 10;
             foreach (var table in project.Tables)
             {
                 var workSheetName = table.Name;
@@ -101,35 +113,38 @@ namespace VerySimpleDashboard.Importer
                 var rowIndex = 1;
                 var importedRows = new List<DataRow>();
 
-                while (emptyCount <= maxEmptyCount)
+                var bufferPage = -1;
+                var rowOffset = rowIndex;
+                var rowValues = (object[,])null;
+                while (emptyCount <= DefaultMaxEmptycount)
                 {
-                    var rowValues = _excelReaderProxy.GetColumnValues(workSheetName, rowIndex, 0, table.Columns.Count).ToArray();
-                    if (rowValues.Length != table.Columns.Count)
+                    if ((rowIndex > (bufferPage * BufferRowLength)) || rowValues == null)
                     {
-                        emptyCount++;
+                        bufferPage += 1;
+                        rowValues = _excelReaderProxy.GetRangeValues(workSheetName, startRow: rowOffset + bufferPage * BufferRowLength, rowCount: BufferRowLength,
+                            startColumn: 0, columnCount: table.Columns.Count);
                     }
+
+                    var columnIndex = 0;
+                    var isEmpty = true;
+                    var dataRow = new DataRow()
+                    {
+                        Data = new object[table.Columns.Count]
+                    };
+                    foreach (var column in table.Columns)
+                    {
+                        // ReSharper disable once PossibleNullReferenceException - First run rowIndex will always be 1 and rowOffset will be 0 so a new array will be read.
+                        var rowValue = DataTypeParser.ParseValue(rowValues[columnIndex, rowIndex - (bufferPage * BufferRowLength) - rowOffset], column.DataType, _cultureInfo);
+                        isEmpty = isEmpty & ((rowValue == null) || string.IsNullOrWhiteSpace(rowValue.ToString()));
+                        dataRow.Data[columnIndex] = rowValue;
+
+                        columnIndex++;
+                    }
+                    if (isEmpty) emptyCount++;
                     else
                     {
-                        var columnIndex = 0;
-                        var isEmpty = true;
-                        var dataRow = new DataRow()
-                        {
-                            Data = new object[table.Columns.Count]
-                        };
-                        foreach (var column in table.Columns)
-                        {
-                            var rowValue = DataTypeParser.ParseValue(rowValues[columnIndex], column.DataType, _cultureInfo);
-                            isEmpty = isEmpty & ((rowValue == null) || string.IsNullOrWhiteSpace(rowValue as string));
-                            dataRow.Data[columnIndex] = rowValue;
-
-                            columnIndex++;
-                        }
-                        if (isEmpty) emptyCount++;
-                        else
-                        {
-                            importedRows.Add(dataRow);
-                            emptyCount = 0;
-                        }
+                        importedRows.Add(dataRow);
+                        emptyCount = 0;
                     }
 
                     rowIndex++;
@@ -171,7 +186,9 @@ namespace VerySimpleDashboard.Importer
         {
             var emptyCount = 0;
             var possibleDataTypes = new List<DataType> {DataType.Integer, DataType.Double, DataType.Boolean, DataType.DateTime, DataType.String};
-            foreach (var rowValue in _excelReaderProxy.GetRowValues(workSheetName, 1, 100, columnIndex))
+
+            foreach (var rowValue in _excelReaderProxy.GetRangeValues(
+                workSheetName, startRow:1, rowCount: ColumnGuessScanLength, startColumn: columnIndex, columnCount:1))
             {
                 if (rowValue == null || string.IsNullOrWhiteSpace(rowValue.ToString()))
                 {
