@@ -1,24 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using VerySimpleDashboard.Data;
 
 namespace VerySimpleDashboard.Importer
 {
-    public class ExcelImporter
+    public class ExcelImporter : IExcelImporter
     {
         private static readonly log4net.ILog Log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
-        public IEnumerable<ExcelImportError> Errors
-        {
-            get { return _errors; }
-        }
 
         private readonly IExcelReaderProxy _excelReaderProxy;
         private readonly CultureInfo _cultureInfo;
         private readonly IList<ExcelImportError> _errors = new List<ExcelImportError>();
-        private bool _hasRowErrors;
 
         public int MaxEmptycount { get; set; }
         public int BufferRowLength { get; set; }
@@ -28,15 +21,9 @@ namespace VerySimpleDashboard.Importer
         private const int DefaultBufferRowLength = 3;
         private const int DefaultColumnGuessScanLength = 100;
 
-        private void AddError(ExcelImportError error)
-        {
-            _hasRowErrors = true;
-            _errors.Add(error);
-        }
-
         public ExcelImporter(
             IExcelReaderProxy excelReaderProxy, 
-            System.Globalization.CultureInfo cultureInfo)
+            CultureInfo cultureInfo)
         {
             _excelReaderProxy = excelReaderProxy;
             _cultureInfo = cultureInfo;
@@ -159,30 +146,6 @@ namespace VerySimpleDashboard.Importer
             return project;
         }
 
-        public Project ImportDocumentContent(System.IO.Stream fileStream, Project project)
-        {
-            Log.Info("ImportDocumentContent initiated");
-
-            _errors.Clear();
-
-            using (var reader = _excelReaderProxy)
-            {
-                var isValid = reader.Open(fileStream);
-
-                if (!isValid)
-                {
-                    AddError(new ExcelImportError().WithDescription("The file to import is not a valid Excel file"));
-                    Log.Debug("Import file was not valid, exiting");
-                    return null;
-                }
-
-                ImportDocumentContent(project);
-            }
-
-            Log.Info("ImportDocumentContent finished");
-            return project;
-        }
-
         private DataType GuessDataType(string workSheetName, int columnIndex, int maxEmptyCount = 10)
         {
             var emptyCount = 0;
@@ -218,7 +181,5 @@ namespace VerySimpleDashboard.Importer
 
             return possibleDataTypes.First();
         }
-
-        
     }
 }

@@ -48,6 +48,7 @@
     <Compile Include="ExcelImportErrorExtensions.cs" />
     <Compile Include="ExcelReaderProxy.cs" />
     <Compile Include="ExcelWorkSheetExtensions.cs" />
+    <Compile Include="IExcelImporter.cs" />
     <Compile Include="IExcelReaderProxy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

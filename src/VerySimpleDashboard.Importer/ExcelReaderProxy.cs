@@ -55,31 +55,6 @@ namespace VerySimpleDashboard.Importer
             return workSheet.Cells[row+1, column+1].Value;
         }
 
-        public IEnumerable<object> GetRowValues(string workSheetName, int startRow, int rowCount, int column)
-        {
-            if (_package == null) throw new PackageNotOpenException();
-
-            var workSheet = _package.Workbook.Worksheets[workSheetName];
-
-            return workSheet.Cells[startRow + 1, column + 1, startRow + rowCount + 1, column + 1].Select(c => c.Value);
-        }
-
-        public IEnumerable<object> GetColumnValues(string workSheetName, int row, int startColumn, int columnCount)
-        {
-            if (_package == null) throw new PackageNotOpenException();
-
-            var workSheet = _package.Workbook.Worksheets[workSheetName];
-            var range = workSheet.Cells[row + 1, startColumn + 1, row + 1, startColumn + columnCount + 1]
-                .Select(c => new {Value = c.Value, Address = new CellAddress(c.Address)});
-            var values = new object[columnCount, 1];
-            foreach (var cell in range)
-            {
-                
-            }
-
-            return range.Select(c => c.Value);
-        }
-
         public object[,] GetRangeValues(string workSheetName, int startRow, int rowCount, int startColumn, int columnCount)
         {
             if (_package == null) throw new PackageNotOpenException();

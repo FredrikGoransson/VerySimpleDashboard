@@ -10,7 +10,7 @@ namespace VerySimpleDashboard.Tests
         private FileStream _fileStream;
 
         [SetUp]
-        private void Setup()
+        public void Setup()
         {
             var reader = new ExcelReaderProxy();
             _fileStream = File.Open(@"Excel Importer/Test Document 1.xlsx",
@@ -20,7 +20,7 @@ namespace VerySimpleDashboard.Tests
         }
 
         [TearDown]
-        private void Teardown()
+        public void Teardown()
         {
             _fileStream.Close();
             _fileStream.Dispose();

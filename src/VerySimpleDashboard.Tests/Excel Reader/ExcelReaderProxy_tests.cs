@@ -21,10 +21,12 @@ namespace VerySimpleDashboard.Tests
             reader.Open(fileStream);
 
             // Act
-            var values = reader.GetColumnValues("complete data", 0, 0, 3);
+            var values = reader.GetRangeValues("complete data", startRow: 0, rowCount: 1, startColumn: 0, columnCount: 3);
 
             // Assert
-            values.ShouldAllBeEquivalentTo(new[] {"A1", "B1", "C1"});
+            values[0, 0].Should().Be("A1");
+            values[1, 0].Should().Be("B1");
+            values[2, 0].Should().Be("C1");
         }
 
         [Test]

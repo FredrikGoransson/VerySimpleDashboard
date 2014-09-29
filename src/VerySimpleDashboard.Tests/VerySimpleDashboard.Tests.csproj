@@ -62,7 +62,7 @@
     <Compile Include="Excel Importer\ExcelImporterTests_ImportDocumentStructure_With_document_with_empty_rows.cs" />
     <Compile Include="Excel Reader\ExcelReaderProxy_tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Excel Importer\ExcelImporterTests.cs" />
+    <Compile Include="Excel Importer\ExcelImporterTests_ImportDocumentStructure_With_well_formed_document.cs" />
     <Compile Include="Support Files\MigrationOptions.cs" />
     <Compile Include="Support Files\MigrationRunnerBase.cs" />
     <Compile Include="Support Files\MigrationsTests.cs" />
