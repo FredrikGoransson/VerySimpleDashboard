@@ -50,6 +50,7 @@
     <Compile Include="ExcelWorkSheetExtensions.cs" />
     <Compile Include="IExcelImporter.cs" />
     <Compile Include="IExcelReaderProxy.cs" />
+    <Compile Include="IFilePathBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
