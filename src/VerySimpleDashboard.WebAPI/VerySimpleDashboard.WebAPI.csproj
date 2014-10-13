@@ -208,6 +208,7 @@
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\Import\ImportController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
@@ -319,6 +320,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Import\Index.cshtml" />
+    <Content Include="Views\Import\Upload.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -329,6 +331,16 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\VerySimpleDashboard.Data\VerySimpleDashboard.Data.csproj">
+      <Project>{B59EB5C9-3751-43FD-8AEE-C52AA59C7376}</Project>
+      <Name>VerySimpleDashboard.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\VerySimpleDashboard.Importer\VerySimpleDashboard.Importer.csproj">
+      <Project>{7ACB00C4-CDB0-4261-8687-2093B4C02BFC}</Project>
+      <Name>VerySimpleDashboard.Importer</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

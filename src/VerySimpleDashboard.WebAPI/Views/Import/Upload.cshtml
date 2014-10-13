@@ -1,0 +1,29 @@
+﻿@model VerySimpleDashboard.WebAPI.Models.Import.Upload
+@{
+    ViewBag.Title = "Import data";
+}
+
+<h2><span>Upload preview</span></h2>
+
+@foreach (var table in Model.Tables)
+{
+    <h3>Table - @table.Name</h3>
+    <table>
+        <thead>
+            <tr>
+                @foreach (var column in table.Columns)
+                {
+                    <th>@column.Name</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                @foreach (var column in table.Columns)
+                {
+                    <th>@column.Type</th>
+                }
+            </tr>
+        </tbody>
+</table>
+}
