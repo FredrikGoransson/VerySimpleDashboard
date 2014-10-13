@@ -20,6 +20,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VerySimpleDashboard.Data.Sq
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VerySimpleDashboard.Tests", "VerySimpleDashboard.Tests\VerySimpleDashboard.Tests.csproj", "{EEFF028D-44F3-4FAB-9D77-96EE6BFED2BB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VerySimpleDashboard.WebAPI", "VerySimpleDashboard.WebAPI\VerySimpleDashboard.WebAPI.csproj", "{5CF7F0E4-674C-4367-8C54-65BD032A0D1B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -46,6 +48,10 @@ Global
 		{EEFF028D-44F3-4FAB-9D77-96EE6BFED2BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EEFF028D-44F3-4FAB-9D77-96EE6BFED2BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EEFF028D-44F3-4FAB-9D77-96EE6BFED2BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5CF7F0E4-674C-4367-8C54-65BD032A0D1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CF7F0E4-674C-4367-8C54-65BD032A0D1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CF7F0E4-674C-4367-8C54-65BD032A0D1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CF7F0E4-674C-4367-8C54-65BD032A0D1B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
